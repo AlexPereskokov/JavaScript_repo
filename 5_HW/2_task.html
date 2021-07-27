@@ -1,0 +1,44 @@
+<!--Вторая задача-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="bodyBasket"></div>
+<script>
+     let fullBasket = {
+       device: ['Phone', 'Headphones', 'Mouse'],
+       price: [15000, 5000, 3000],
+       count: [12, 3, 7],
+     }
+     // В случае пустой корзины
+     // let fullBasket = {
+     //     device: [],
+     //     price: [],
+     //     count: [],
+     // }
+
+     function sumBasket(obj) {
+         let res = 0;
+         let products = Object.keys(obj['device']);
+         for (let i = 0; i < products.length; i++) {
+             res += obj['price'][i] * obj['count'][i];
+         }
+         return [products.length, res];
+     }
+      function basketStatus() {
+        let basket = document.body.querySelector('.bodyBasket');
+        let goods = document.createElement('div');
+        if (sumBasket(fullBasket)[1] === 0) goods.textContent = 'The basket is empty';
+        else {
+            goods.textContent = 'In the basket: ' + sumBasket(fullBasket)[0] +
+                ' products in the amount of ' + sumBasket(fullBasket)[1] + ' rubles';
+        }
+        basket.appendChild(goods);
+      }
+    basketStatus();
+</script>
+</body>
+</html>

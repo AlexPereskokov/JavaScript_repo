@@ -1,0 +1,67 @@
+<!--Первая задача-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="startBlock"></div>
+<script>
+
+    function spawn_b_block (name) {
+        let b_block = document.createElement('div');
+        b_block.style.cssText = "width: 50px; height: 50px; background-color: #000; float: left;";
+        name.appendChild(b_block);
+    }
+    function spawn_w_block (name) {
+        let w_block = document.createElement('div');
+        w_block.style.cssText = "width: 50px; height: 50px; background-color: #fff; float: left;";
+        name.appendChild(w_block);
+    }
+    function spawn_num_block (name, number) {
+        let num = document.createElement('div');
+        num.innerHTML = number;
+        num.style.cssText = 'width: 50px; height: 50px; float: left;\n' +
+            '  display: flex; align-items: center; justify-content: center;';
+        name.appendChild(num)
+    }
+    function spawn_letter_block (name, number) {
+        const let_array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        let letter = document.createElement('div');
+        letter.innerHTML = let_array[number];
+        letter.style.cssText = 'width: 50px; height: 50px; float: left;\n' +
+            ' display: flex; align-items: center; justify-content: center;';
+        name.appendChild(letter)
+    }
+
+    function Chess_board() {
+        // Поле игры
+        let bigBlock = document.body.querySelector('.startBlock');
+        bigBlock.style.cssText = "width: 450px; height: 450px; border: 1px solid black;";
+        // let frame = document.createElement('div')
+        // frame.style.cssText = "width: 400px; height: 400px; margin: 0px 0px 0px 50px; border-image: 1px solid black;";
+        // bigBlock.appendChild(frame)
+        let flag = true;
+
+        for (let i = 8; i >= 0; i--) {
+            for (let j = 0; j <= 8; j++) {
+                if (j === 0 && i !== 0)  {
+                    spawn_num_block(bigBlock, i);
+                } else if (i === 0){
+                    if (j === 0) spawn_w_block(bigBlock);
+                    else spawn_letter_block(bigBlock, j-1)
+                } else if (flag) {
+                    spawn_b_block(bigBlock);
+                }
+                else {
+                    spawn_w_block(bigBlock);
+                }
+                flag = !flag;
+            }
+        }
+    }
+    Chess_board();
+</script>
+</body>
+</html>
