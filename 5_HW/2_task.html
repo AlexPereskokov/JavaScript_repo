@@ -8,37 +8,48 @@
 <body>
 <div class="bodyBasket"></div>
 <script>
-     let fullBasket = {
-       device: ['Phone', 'Headphones', 'Mouse'],
-       price: [15000, 5000, 3000],
-       count: [12, 3, 7],
-     }
-     // В случае пустой корзины
-     // let fullBasket = {
-     //     device: [],
-     //     price: [],
-     //     count: [],
-     // }
-
-     function sumBasket(obj) {
-         let res = 0;
-         let products = Object.keys(obj['device']);
-         for (let i = 0; i < products.length; i++) {
-             res += obj['price'][i] * obj['count'][i];
-         }
-         return [products.length, res];
-     }
-      function basketStatus() {
-        let basket = document.body.querySelector('.bodyBasket');
-        let goods = document.createElement('div');
-        if (sumBasket(fullBasket)[1] === 0) goods.textContent = 'The basket is empty';
-        else {
-            goods.textContent = 'In the basket: ' + sumBasket(fullBasket)[0] +
-                ' products in the amount of ' + sumBasket(fullBasket)[1] + ' rubles';
+    <!-- Корзина из 4ого ДЗ-->
+    const objPhone = {
+        name: 'Phone',
+        price: 15000,
+        count: 12,
+    };
+    const objHeadphones = {
+        name: 'Headphones',
+        price: 5000,
+        count: 3,
+    };
+    const objMouse = {
+        name: 'Mouse',
+        price: 3000,
+        count: 7,
+    };
+    const objBasket = {
+        goods: [objPhone,objHeadphones,objMouse],
+        sumBasket: function() {
+            let res = 0, free = true;
+            for (let i = 0; i < this.goods.length; i++) {
+                if (this.goods[i].price !== 0) free = false;
+                res += this.goods[i].price * this.goods[i].count;
+            }
+            return [res, free];
         }
-        basket.appendChild(goods);
-      }
-    basketStatus();
+    };
+    // Генерация статуса корзины
+    let basket = document.body.querySelector('.bodyBasket');
+    let basketStatus = document.createElement('div');
+    if (objBasket.sumBasket()[1])
+        basketStatus.textContent = 'The basket has ' + objBasket.goods.length + ' products for free!';
+    else if (objBasket.sumBasket()[0] === 0) basketStatus.textContent = 'The basket is empty'
+    else {
+        basketStatus.textContent = 'In the basket: ' + objBasket.goods.length +
+            ' products in the amount of ' + objBasket.sumBasket()[0] + ' rubles';
+    }
+    basket.appendChild(basketStatus);
+
+    // Исправил корзину в соотетствии с исправлением в 4ом ДЗ
+    // Сделал 3 варианта вывода статуса: Пустая корзина, Корзина бесплатных товаров(цена может быть 0, кол-во нет)
+    // И стандартный вывод нормальной корзины с количеством и стоимостью
 </script>
 </body>
 </html>
