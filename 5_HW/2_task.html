@@ -43,7 +43,7 @@
     };
     let basket = document.body.querySelector('.bodyBasket');
     let basketStatus = document.createElement('div');
-    if (objBasket.freeBasket())
+    if (objBasket.freeBasket() && objBasket.goods.length !==0)
         basketStatus.textContent = 'The basket has ' + objBasket.goods.length + ' products for free!';
     else if (objBasket.goods.length === 0) basketStatus.textContent = 'The basket is empty'
     else {
