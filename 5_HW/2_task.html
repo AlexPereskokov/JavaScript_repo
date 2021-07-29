@@ -27,23 +27,28 @@
     const objBasket = {
         goods: [objPhone,objHeadphones,objMouse],
         sumBasket: function() {
-            let res = 0, free = true;
+            let res = 0;
             for (let i = 0; i < this.goods.length; i++) {
-                if (this.goods[i].price !== 0) free = false;
                 res += this.goods[i].price * this.goods[i].count;
             }
-            return [res, free];
+            return res;
+        },
+        freeBasket: function() {
+            let free = true;
+            for (let i = 0; i < this.goods.length; i++) {
+                if (this.goods[i].price !== 0) free = false;
+            }
+            return free;
         }
     };
-    // Генерация статуса корзины
     let basket = document.body.querySelector('.bodyBasket');
     let basketStatus = document.createElement('div');
-    if (objBasket.sumBasket()[1])
+    if (objBasket.freeBasket())
         basketStatus.textContent = 'The basket has ' + objBasket.goods.length + ' products for free!';
-    else if (objBasket.sumBasket()[0] === 0) basketStatus.textContent = 'The basket is empty'
+    else if (objBasket.goods.length === 0) basketStatus.textContent = 'The basket is empty'
     else {
         basketStatus.textContent = 'In the basket: ' + objBasket.goods.length +
-            ' products in the amount of ' + objBasket.sumBasket()[0] + ' rubles';
+            ' products in the amount of ' + objBasket.sumBasket() + ' rubles';
     }
     basket.appendChild(basketStatus);
 
