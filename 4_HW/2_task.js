@@ -31,9 +31,7 @@ const objMouse = {
 }
 
 const objBasket = {
-    objPhone,
-    objHeadphones,
-    objMouse,
+    goods: [objPhone,objHeadphones,objMouse]
 }
 
 // Был такой функционал подсчёта корзины
@@ -46,16 +44,17 @@ function countBasketPrice (array) {
 }
 // Стал такой
 
-function sumBasket(obj) {
-    let res = 0;
-    let products = Object.keys(objBasket);
-    for (let i = 0; i < products.length; i++) {
-        res += objBasket[products[i]]['price'] * objBasket[products[i]]['count'];
+const Basket = {
+    goods: [objPhone,objHeadphones,objMouse],
+    sumBasket: function() {
+        let res = 0;
+        for (let i = 0; i < this.goods.length; i++) {
+            res += this.goods[i].price * this.goods[i].count;
+        }
+        return res;
     }
-    return res;
-}
-
-console.log(sumBasket(objBasket));
+};
+console.log(Basket.sumBasket());
 
 /* Третье задание */
 // Объект однозначно должен быть один, который используется повсюду, принцип ООП
