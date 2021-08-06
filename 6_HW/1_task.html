@@ -1,0 +1,132 @@
+<!-- Первая задача -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Реализация интернет-магазина</title>
+</head>
+<body>
+<h2>Каталог товаров:</h2>
+<div class="catalog"></div>
+<hr>
+<h2>Корзина:</h2>
+<div class="basket"></div>
+<button class="clr_basket">Очистить корзину</button>
+<script>
+    const catalog = {
+        catalogBlock: null,
+        basket: null,
+        goods: [{
+                good_id : 111,
+                good_name: 'Phone',
+                good_price: 15000,
+            },
+            {
+                good_id: 222,
+                good_name: 'Headphones',
+                good_price: 5000,
+            },
+            {
+                good_id: 333,
+                good_name: 'Mouse',
+                good_price: 3000,
+            }
+        ],
+        init(basket) {
+            this.catalogBlock = document.querySelector('.catalog');
+            this.basket = basket;
+            this.render(this.goods.length);
+            this.addEventHandlers();
+        },
+        render(good_count) {
+            if (good_count > 0) this.renderAllGoods();
+            else this.catalogBlock.textContent = ' The catalog does not contain any products '
+        },
+        renderAllGoods() {
+            this.goods.forEach(good => {
+                this.catalogBlock.insertAdjacentHTML('beforeend',this.renderEveryGood(good));
+            });
+        },
+        renderEveryGood(good) {
+            return  `<div class="good">
+                    <h3>${good.good_name}</h3>
+                    <p>${good.good_price} rubles.</p>
+                    <button class="good__add" data-good_id="${good.good_id}">Add to basket</button>
+                </div>`;
+        },
+        addEventHandlers() {
+            this.catalogBlock.addEventListener('click', event => this.addToBasket(event));
+        },
+        addToBasket(event) {
+            if (!event.target.classList.contains('good__add')) return;
+            const good_id = +event.target.dataset.good_id;
+            const addGood = this.goods.find((add) => add.good_id === good_id);
+            this.basket.addToBasket(addGood);
+        }
+    };
+
+    const basket = {
+        basketBlock: null,
+        clrBasketButton: null,
+        goods: [{
+                good_id : 111,
+                good_name: 'Phone',
+                good_price: 15000,
+                good_quant: 7,
+            },
+            {
+                good_id: 222,
+                good_name: 'Headphones',
+                good_price: 5000,
+                good_quant: 2,
+            },
+            {
+                good_id: 333,
+                good_name: 'Mouse',
+                good_price: 3000,
+                good_quant: 30,
+            }
+        ],
+        init() {
+            this.basketBlock = document.querySelector(".basket");
+            this.clrBasketButton = document.querySelector(".clr_basket");
+            this.render(this.goods.length);
+            this.addEventHandlers();
+        },
+        render(good_count) {
+            if (good_count > 0) this.renderAllGoods();
+            else this.basketBlock.textContent = ' The basket is empty'
+        },
+        renderAllGoods() {
+            this.goods.forEach(good => {
+                this.basketBlock.insertAdjacentHTML('beforeend',this.renderEveryGood(good));
+            });
+        },
+        renderEveryGood(good) {
+            return  `<div>
+                    <h3>${good.good_name}</h3>
+                    <p>${good.good_price} rubles.</p>
+                    <p>${good.good_quant} quantity.</p>
+                    </div>`;
+        },
+        addEventHandlers() {
+            this.clrBasketButton.addEventListener('click', this.dropBasket.bind(this));
+        },
+        dropBasket() {
+            this.goods = [];
+            this.render(this.goods.length);
+        },
+        addToBasket(addGood) {
+            if (addGood) {
+                const findInBasket = this.goods.find((elem) => addGood.good_id === elem.good_id);
+                if (findInBasket) findInBasket.good_quant++;
+                else this.goods.push({...addGood, good_quant: 1});
+                this.render(this.goods.length);
+            } else alert('Error added');
+        }
+    };
+    catalog.init(basket);
+    basket.init();
+</script>
+</body>
+</html>
